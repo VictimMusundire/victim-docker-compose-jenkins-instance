@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    environment:
+      - JENKINS_OPTS=--httpPort=8080
+    ports:
+      - "8080:8080"
+      - "50000:50000" # This is for the Jenkins agent communication port
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - jenkins_network
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
+    driver: local
+
+networks:
+  jenkins_network:
+    driver: bridge
